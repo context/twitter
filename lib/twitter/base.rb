@@ -126,7 +126,12 @@ module Twitter
     def leave(id_or_screenname)
       users(request("notifications/leave/#{id_or_screenname}.xml", :auth => true)).first
     end
-    
+
+    def verify_credentials
+      request("account/verify_credentials", :auth => true)
+      true
+    end
+
     # Updates your twitter with whatever status string is passed in
     def post(status)
       url = URI.parse("http://#{@@api_url}/statuses/update.xml")
@@ -179,8 +184,8 @@ module Twitter
 
           raise BadResponse unless response.message == 'OK' || response.message == 'Not Modified'
           parse(response.body)
-        rescue
-          raise CantConnect
+        rescue => error
+          raise CantConnect, error.message
         end
       end
       

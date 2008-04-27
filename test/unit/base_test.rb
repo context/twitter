@@ -5,7 +5,11 @@ class BaseTest < Test::Unit::TestCase
     # note to self use webgroup
     @t = Twitter::Base.new(CONFIG['email'], CONFIG['password'])
   end
-  
+
+  test 'should verify credentials' do
+    assert_equal true, @t.verify_credentials
+  end
+
   test 'should have friend and public class level timelines' do
     assert_equal 3, Twitter::Base.timelines.size
   end
@@ -43,7 +47,7 @@ class BaseTest < Test::Unit::TestCase
   end
   
   test 'should be able to get direct messages for auth user by alias received messages' do
-    puts 'Recieved Messages', @t.received_messages, "*"*50
+    puts 'Received Messages', @t.received_messages, "*"*50
   end
   
   test 'should be able to send a direct message' do
