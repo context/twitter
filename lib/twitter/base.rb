@@ -34,15 +34,21 @@ module Twitter
     end
     
     # Returns an array of users who are in your friends list
-    def friends(lite = false)
-      users(call(:friends, {:args => {:lite => lite}}))
+    def friends(options_or_lite = false)
+      unless options_or_lite.is_a?(Hash)
+        options_or_lite = {:lite => options_or_lite}
+      end
+      users(call(:friends, {:args => options_or_lite}))
     end
     
     # Returns an array of users who are friends for the id or username passed in
-    def friends_for(id, lite = false)
-      users(call(:friends, {:args => {:id => id, :lite => lite}}))
+    def friends_for(id, options_or_lite = false)
+      unless options_or_lite.is_a?(Hash)
+        options_or_lite = {:lite => options_or_lite}
+      end
+      friends options_or_lite.merge(:id => id)
     end
-    
+
     # Returns an array of users who are following you
     def followers(lite = false)
       users(call(:followers, {:args => {:lite => lite}}))
@@ -164,7 +170,7 @@ module Twitter
         # Following line needed as lite=false doens't work in the API: http://tinyurl.com/yo3h5d
         options[:args].delete(:lite) unless options[:args][:lite]
         path    = "statuses/#{method.to_s}.xml"
-        path   += '?' + options[:args].inject('') { |qs, h| qs += "#{h[0]}=#{h[1]}&"; qs } unless options[:args].blank?        
+        path   += '?' + options[:args].inject([]) { |qs, h| qs << "#{h[0]}=#{h[1]}" }.join("&") unless options[:args].blank?        
         request(path, options)
       end
       
