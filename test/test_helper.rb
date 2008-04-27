@@ -1,7 +1,9 @@
 require 'test/unit'
-require File.dirname(__FILE__) + '/../lib/twitter'
+require 'rubygems'
 require 'mocha'
 require 'stubba'
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+require 'twitter'
 
 class << Test::Unit::TestCase
   def test(name, &block)
@@ -18,4 +20,4 @@ class << Test::Unit::TestCase
 end
 
 # load config
-CONFIG = YAML::load(open('/Users/nunemaker/.twitter'))
+CONFIG = YAML::load(open("#{ENV['HOME']}/.twitter"))
