@@ -24,6 +24,7 @@ setup.rb
 tasks/deployment.rake
 tasks/environment.rake
 tasks/website.rake
+test/remote.rb
 test/test_helper.rb
 test/unit/base_test.rb
 test/unit/direct_message_test.rb
